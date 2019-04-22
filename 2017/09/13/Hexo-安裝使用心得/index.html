@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Blog writting. Majorly covers backend study notes from myself.">
+    <meta name="keyword" content="backend">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Hexo 安裝使用心得 - null
+        
+    </title>
+
+    <link rel="canonical" href="https://babygoat.github.io/2017/09/13/Hexo-安裝使用心得/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('undefined')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('/img/signature/BeanTechSign-white.png');
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>Hexo 安裝使用心得</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by babygoat on
+                            2017-09-13
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">babygoat&#39;s blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/categories/">All categories</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1><span id="前言">前言</span></h1>
+<p>一直以來技術學習以及解決問題的方式，都是如下面這般絞盡腦汁想關鍵字餵Google</p>
+<a id="more"></a>
+<p><img src="/images/multiple-pages.png" alt title="圖1:快看不到分頁標題XD"></p>
+<p>問題解決了，東西懂了個三、四成可以應付需求，過程中掛在心中的不解處，也就雲淡風輕的隨之而過去了，雖然常常覺得遺憾，但過個兩三天就淡忘，直到下次再次踩到痛處；剛好受到柏宇<a href="http://www.jyt0532.com/" target="_blank" rel="noopener">jyt0532</a>、泡哥<a href="http://nk910216.github.io/" target="_blank" rel="noopener">moonblack</a>的啟發，NodeJS, React以及AWS的學習也有筆記學習驗證的需求，於是就有了這篇文章當作開端。</p>
+<h1><span id="blog部署">BLOG部署</span></h1>
+<p>Github Repo有提供不限流量網頁空間，也可搭配git管理<a href="https://pages.github.com/" target="_blank" rel="noopener">文章</a>，又剛好可以多熟悉GIT CLI，就列為首選。常見的建置靜態的Tool很多如<a href="https://jekyllrb.com/" target="_blank" rel="noopener">jeykll</a>、<a href="https://hexo.io/zh-tw/index.html" target="_blank" rel="noopener">hexo</a>、<a href="https://gohugo.io/" target="_blank" rel="noopener">hugo</a>，其實相關比較文還不少，有興趣的可以參考一下Reference。</p>
+<p>我的選擇還是以Template中較接近我想要的為準，剛好被<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">Next</a>的簡潔風燒到，而且後來發現hexo framework是以Node.js為底，剛好是現在學習可以觀摩Code的對像，也順便支持一下台灣人的作者 <a href="https://twitter.com/tommy351" target="_blank" rel="noopener">tommy351</a>，<s>還有選擇的當下時間已經很晚了</s>，就開始著手打造Blog！</p>
+<h2><span id="設定github-pages">設定Github Pages</span></h2>
+<p>可以參考官方的教學:</p>
+<ul>
+<li><a href="https://pages.github.com/" target="_blank" rel="noopener">Github Pages</a></li>
+</ul>
+<p>基本上就是開一個以 <strong><a href="http://username.github.io" target="_blank" rel="noopener">username.github.io</a></strong> 為名的Repo，接下來將這個Repo clone一份在Local，等等會用這個資料夾( <strong><a href="http://username.github.io" target="_blank" rel="noopener">username.github.io</a></strong> )來init hexo資料夾</p>
+<h2><span id="安裝hexo">安裝Hexo</span></h2>
+<p>網路上的安裝教學其實也很多，default配了一個模版，不過不符合我需求，而要自己import喜歡的Template進去，並成功generate出預期的頁面也是需要花了一番功夫研究。</p>
+<h3><span id="預備環境">預備環境</span></h3>
+<p>安裝前，我們需要先準備好兩個東西: <strong>Node.js</strong>, <strong>Git</strong></p>
+<ul>
+<li><a href="http://ithelp.ithome.com.tw/articles/10157347" target="_blank" rel="noopener">Node.js安裝教學</a></li>
+<li><a href="https://git-scm.com/book/zh-tw/v2/%E9%96%8B%E5%A7%8B-Git-%E5%AE%89%E8%A3%9D%E6%95%99%E5%AD%B8" target="_blank" rel="noopener">Git安裝教學</a></li>
+</ul>
+<p>附上安裝的教學連結，細節這邊就不再贅述。</p>
+<h3><span id="安裝hexo-cli">安裝Hexo-cli</span></h3>
+<p>接著透過npm 安裝hexo</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g <span class="comment">#global</span></span><br></pre></td></tr></table></figure>
+<p>測試看看 hexo 指令就知道有沒有安裝成功了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo -v</span><br></pre></td></tr></table></figure>
+<h3><span id="安裝-hexo">安裝 Hexo</span></h3>
+<p>接著進到剛剛 <strong><a href="http://username.github.io" target="_blank" rel="noopener">username.github.io</a></strong> 資料夾裡面，安裝套件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init</span><br></pre></td></tr></table></figure>
+<p>這邊可能會遇到安裝上的第一個問題:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init</span><br><span class="line">FATAL ~/<span class="built_in">test</span> not empty, please run `hexo init` on an empty</span><br><span class="line">folder and <span class="keyword">then</span> copy your files into it</span><br><span class="line">FATAL Something\<span class="string">'s wrong. Maybe you can find the solution here: http://hexo.io/do</span></span><br><span class="line"><span class="string">cs/troubleshooting.html</span></span><br><span class="line"><span class="string">Error: target not empty</span></span><br></pre></td></tr></table></figure>
+<p>如果剛剛有先clone 一份資料夾在本機端的話，非空的資料夾會造成hexo init 失敗<br>
+可參閱<a href="https://github.com/hexojs/hexo/issues/1749" target="_blank" rel="noopener">這篇討論</a></p>
+<p>基本上解法有三種，我比較懶是採用第一種偷懶的方法</p>
+<ol>
+<li>先將 <strong><a href="http://username.github.io" target="_blank" rel="noopener">username.github.io</a></strong> 資料夾內的 .git/ 資料夾暫時移到別的地方，完成init之後再移回來</li>
+<li>手動更新<a href="https://github.com/hexojs/hexo-cli" target="_blank" rel="noopener">hexo-cli</a>到github上最新的點，目前npm上的是去年的舊版(1.0.3)，至少要拉到 6ac7fcb7 之後的點</li>
+<li>先hexo init，再關聯github repo</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init username.github.io</span><br><span class="line">$ <span class="built_in">cd</span> username.github.io</span><br><span class="line">$ git init <span class="comment">#Initialize git repo</span></span><br><span class="line">$ git remote add origin git://github.com/username/username.github.io.git <span class="comment">#關連Github</span></span><br></pre></td></tr></table></figure>
+<p>完成hexo init 之後，應該會看到幾個檔案</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ tree -L 1</span><br><span class="line">|-- _config.yml       <span class="comment">#Site configuration file (主要)</span></span><br><span class="line">|-- db.json           <span class="comment">#cache</span></span><br><span class="line">|-- node_modules      <span class="comment">#nodejs modules</span></span><br><span class="line">|-- package.json      <span class="comment">#nodejs package dependency</span></span><br><span class="line">|-- scaffolds</span><br><span class="line">|-- <span class="built_in">source</span>            <span class="comment">#文章相關素材(_posts/)</span></span><br><span class="line">-- themes             <span class="comment">#放置主題 module</span></span><br></pre></td></tr></table></figure>
+<h3><span id="run-server">Run Server</span></h3>
+<p>把hexo server run起來</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server <span class="comment"># default on port:4000, use -p for your own port</span></span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
+<p>打開<a href="http://localhost:4000/" target="_blank" rel="noopener">瀏覽器</a>看看吧~應該可以看到預設部落格頁面！</p>
+<p><img src="/images/default-blog.png" alt title="圖2: 預設樣式"></p>
+<h3><span id="deploy-到-github-pages">Deploy 到 Github Pages</span></h3>
+<p>在實際deploy到Github 前，還需要一個package來協助我們上傳generate出來的靜態網頁素材: <a href="https://github.com/hexojs/hexo-deployer-git" target="_blank" rel="noopener">hexo-deployer-git</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+<p>接著我們要在 _config.yml 設定我們要deploy到遠端的資訊</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo: git@github.com:username/username.github.io</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>最後我們就可以把他deploy到github 上啦！</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean      <span class="comment">#Clean up public files &amp; cache</span></span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>到瀏覽器輸入 <a href="http://username.github.io" target="_blank" rel="noopener">http://username.github.io</a> ，這時你應該可以看到剛剛的預設頁面，恭喜你成功一半了！</p>
+<h2><span id="安裝-next">安裝 NexT</span></h2>
+<p>Hexo 提供的主題 Template有很多種，可以到他們的<a href="https://hexo.io/themes/" target="_blank" rel="noopener">主題頁</a>尋寶，這邊我的選擇是極簡風的<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">NexT</a>，不過照著官方的說明文件以及建議方式，實際deploy到github上時會遇到deploy頁面仍是預設主題的問題，不確定程序說明上是否有省略，故底下參考<a href="https://liguanghe.github.io/2017/05/22/blogRebuilt/" target="_blank" rel="noopener">liguanghe大</a>提供的方式完成。</p>
+<h3><span id="下載next主題">下載Next主題</span></h3>
+<p>官方的Github上有提Release及開發中版本可供選擇:</p>
+<ul>
+<li><a href="https://github.com/iissnan/hexo-theme-next/releases/tag/v5.1.2" target="_blank" rel="noopener">Latest Release Version</a> (<strong>Stable, recommended</strong>)</li>
+<li><a href="https://github.com/iissnan/hexo-theme-next/tags" target="_blank" rel="noopener">Tagged Release Version</a> (<strong>Specify the tag you want</strong>)</li>
+<li><a href="https://github.com/iissnan/hexo-theme-next/archive/master.zip" target="_blank" rel="noopener">Latest Master Version</a> (<strong>Unstable, but include latest feature</strong>)</li>
+</ul>
+<p>這邊使用官方推薦的Latest Release Version, 從你的 <strong><a href="http://username.github.io" target="_blank" rel="noopener">username.github.io</a></strong> 資料夾裡開始</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir themes/next</span><br><span class="line">$ curl -L https://api.github.com/repos/iissnan/hexo-theme-next/tarball/v5.1.2 | tar -zxv -C themes/next --strip-components=1 <span class="comment">#解壓縮時忽略root資料夾</span></span><br></pre></td></tr></table></figure>
+<p>或直接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir themes/next</span><br><span class="line">$  git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next</span><br><span class="line">$ <span class="built_in">cd</span> themes/next</span><br><span class="line">$ git checkout v5.1.2 <span class="comment">#checkout latest release tag</span></span><br></pre></td></tr></table></figure>
+<h3><span id="修改設定">修改設定</span></h3>
+<ol>
+<li>修改 _config.yml 內，指定使用我們的主題:next</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Extensions</span></span><br><span class="line"><span class="comment">## Plugins: https://hexo.io/plugins/</span></span><br><span class="line"><span class="comment">## Themes: https://hexo.io/themes/</span></span><br><span class="line">theme: next</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>將主題設定擋新增一份放到 source/ 資料夾，之後有關主題的偏好設定都直接更新在這邊，參考<a href="https://github.com/iissnan/hexo-theme-next/issues/328" target="_blank" rel="noopener">這篇</a></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir <span class="built_in">source</span>/_data</span><br><span class="line">$ cp themes/next/_config.yml <span class="built_in">source</span>/_data/next.yml</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>
+<p>刪除預設主題 themes/Landscape/</p>
+</li>
+<li>
+<p>刪除 themes/next 裡的 .git/ 資料夾</p>
+</li>
+</ol>
+<p>完成以上修改後，在Local端run起來看看，應該可以看到如下的預設主題Scheme: Muse</p>
+<p><img src="/images/next-blog.png" alt title="圖3:NexT主題頁"></p>
+<p>最後，我們就可以使用hexo-deployer-git上傳到github，就完成啦！</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean      <span class="comment">#記得一定要清除前一份public資料夾，否則推上去的還會是default的靜態頁面</span></span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<h1><span id="後記">後記</span></h1>
+<p>真的是很久沒有打落落長的文章了，做起來很快的事情，用文字說明起來卻要咀嚼再三，果然表達能力還是需要靠寫作多加強。最後設定修改的3、4，我覺得是workaround，應該是不符合Hexo 可以自由再不同主題間切換的用意，上面主要是想繞過deploy時一直使用預設的landscape主題，而失敗的問題，但這部份目前猜測應該是跟hexo-deployer-git的實作有關。</p>
+<p>目前的方式，NexT整個package變成掛到hexo下，之後如果要update主題版本，變成要手動砍掉重練，再重新clone一份新的，也是有些費時。這部份的maintain解法應該可以透過git submodule來處理: Fork一份 NexT source到自己的repo，再把git submodule add的方式掛到主資料夾下。可以參考Reference 4、5，這邊就先當作Future Work，短時間應該還沒有認真玩Hexo的需求，目前先當作筆記使用，先好好把Nodejs, React, AWS玩到可以面試再說吧(倒)</p>
+<h1><span id="reference">Reference</span></h1>
+<ol>
+<li><a href="https://stackshare.io/stackups/hexo-vs-hugo-vs-jekyll" target="_blank" rel="noopener">Jekyll vs Hugo vs. Hexo</a></li>
+<li><a href="https://www.slant.co/versus/1006/1020/~jekyll_vs_hexo" target="_blank" rel="noopener">Jekyll vs Hexo</a></li>
+<li><a href="https://opensource.com/article/17/5/hugo-vs-jekyll" target="_blank" rel="noopener">Jekyll vs Hugo</a></li>
+<li><a href="https://github.com/iissnan/hexo-theme-next/issues/932" target="_blank" rel="noopener">远程仓库无法备份theme/next主题的问题</a></li>
+<li><a href="https://leomu.gq/2017/07/31/Submodule-%E8%A7%A3%E5%86%B3-Hexo-%E4%B8%BB%E9%A2%98%E5%BA%93%E6%9B%B4%E6%96%B0/" target="_blank" rel="noopener">Submodule 解决 Hexo 主题库更新</a></li>
+</ol>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2019/04/23/hello-world/" data-toggle="tooltip" data-placement="top" title="Hello World">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2017/03/18/hexo-theme-beantech/" data-toggle="tooltip" data-placement="top" title="[Hexo] Theme BeanTech">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "babygoat";
+    var disqus_identifier = "https://babygoat.github.io/2017/09/13/Hexo-安裝使用心得/";
+    var disqus_url = "https://babygoat.github.io/2017/09/13/Hexo-安裝使用心得/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/babygoat">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/Ching-Yang Tseng">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/babygoat">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/Ching-Yang Tseng">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; babygoat 2019 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://babygoat.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://babygoat.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
