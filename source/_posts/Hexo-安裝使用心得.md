@@ -1,8 +1,12 @@
 ---
 title: Hexo 安裝使用心得
+catalog: true
 date: 2017-09-13 17:56:11
-categories: Hexo
+categories:
+- Hexo
 tags:
+- Hexo
+- Blog 
 description:
 
 ---

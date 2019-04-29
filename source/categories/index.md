@@ -1,6 +1,9 @@
 ---
-title: All categories
-date: 2017-09-10 12:44:58
+layout: "category"
+title: 文章分類
+header-img: img/home-bg.jpg
+date: 2019-04-26 09:08:02
 type: "categories"
-comments: false
+comment: false
 ---
+

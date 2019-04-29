@@ -1,0 +1,36 @@
+---
+layout: layout
+---
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <!-- 目錄列表 -->
+
+            <% site.categories.map(function(category){  %>
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="<%= category.name %>">
+                    <span class="tag-text"><%= category.name %></span>
+                </span>
+                <% category.posts.map(function(post){  %>
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <p class="post-meta"><%= post.date.format(config.date_format) %></p>
+                     <a href="<%- config.root %><%- post.path %>">
+                        <h2 class="post-title">
+                            <%- post.title || "Untitled" %>
+                        </h2>
+                    </a>
+                </div>
+                <hr>
+                <% }) %>
+            </div>
+            <% }) %>
+
+
+        </div>
+    </div>
+</div>
