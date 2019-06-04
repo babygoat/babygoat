@@ -136,7 +136,7 @@ func Exit(code int) {
         runtime_beforeExit()
     }
     syscall.Exit(code)
-}5555
+}
 ```
 
 基本上當錯誤發生時，就直接呼叫os level的system call結束process並回傳傳入的錯誤碼1
