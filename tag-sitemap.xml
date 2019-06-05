@@ -16,20 +16,6 @@
     </url>
 
     <url>
-        <loc>https://babygoat.github.io/tags/Golang/</loc>
-        <lastmod>2019-04-30T06:32:19.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://babygoat.github.io/tags/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/</loc>
-        <lastmod>2019-04-30T06:32:19.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://babygoat.github.io/tags/Hexo/</loc>
         <lastmod>2019-04-30T06:32:19.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -46,6 +32,34 @@
     <url>
         <loc>https://babygoat.github.io/tags/Systemd/</loc>
         <lastmod>2019-04-30T06:32:19.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://babygoat.github.io/tags/Golang/</loc>
+        <lastmod>2019-06-05T05:55:27.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://babygoat.github.io/tags/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/</loc>
+        <lastmod>2019-06-05T05:55:27.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://babygoat.github.io/tags/Shell/</loc>
+        <lastmod>2019-06-05T05:56:30.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://babygoat.github.io/tags/Source/</loc>
+        <lastmod>2019-06-05T05:56:30.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Blog writting. Majorly covers backend study notes from myself.">
+    <meta name="keyword" content="backend">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          [Golang] log.Panic v.s. log.Fatal - babygoat&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://babygoat.github.io/2019/05/04/Golang-log-Panic-v-s-log-Fatal/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('null')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Golang" title="Golang">Golang</a>
+                            
+                              <a class="tag" href="/tags/#學習筆記" title="學習筆記">學習筆記</a>
+                            
+                        </div>
+                        <h1>[Golang] log.Panic v.s. log.Fatal</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by babygoat on
+                            2019-05-04
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">babygoat&#39;s blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/categories/">文章分類</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1><span id="前言">前言</span></h1>
+<p>本篇想記錄一下，剛開始學習golang寫API server的時候想要寫error log時，所遇到的問題</p>
+<p>底下是拜了google大神之後, 大部分寫CRUD的起手式</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">        <span class="string">"database/sql"</span></span><br><span class="line">        <span class="string">"log"</span>        </span><br><span class="line"></span><br><span class="line">      _ <span class="string">"github.com/go-sql-driver/mysql"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    db, err := sql.Open(<span class="string">"mysql"</span>, <span class="string">"user:wrongpwd@tcp(host:3306)/dbname"</span>)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">       log.Fatal(err) <span class="comment">// or log.Panic(err)</span></span><br><span class="line">    &#125;   </span><br><span class="line">    <span class="keyword">defer</span> db.Close()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// sql operations</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>panic 以及 fatal 這兩個log function便引起我的好奇心</p>
+<p>字面意思上看起來都是很嚴重的錯誤，執行後也都立即結束程式</p>
+<p>那到底什麼時候該用哪個才是比較符合go的convention呢？</p>
+<p>所以本篇想要試著整理出底下幾個問題的答案</p>
+<ul>
+<li>兩者的差異性？</li>
+<li>使用的時機點？</li>
+<li>Go建議的做法？</li>
+</ul>
+<h1><span id="差異性">差異性</span></h1>
+<p>為了進一步兩者的差別，我先從godoc的原始碼著手</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// Fatal is equivalent to Print() followed by a call to os.Exit(1).</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Fatal</span><span class="params">(v ...<span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">    std.Output(<span class="number">2</span>, fmt.Sprint(v...))</span><br><span class="line">    os.Exit(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment">// Panic is equivalent to Print() followed by a call to panic().</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Panic</span><span class="params">(v ...<span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">    s := fmt.Sprint(v...)</span><br><span class="line">    std.Output(<span class="number">2</span>, s)</span><br><span class="line">    <span class="built_in">panic</span>(s)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>原來背後是os.Exit(1) v.s panic(s)</p>
+<p>那這兩者在執行上又有什麼差異呢？</p>
+<h2><span id="panic-amp-recover">Panic &amp; Recover</span></h2>
+<p>在查閱godoc有關於<a href="https://golang.org/src/builtin/builtin.go#L233" target="_blank" rel="noopener">panic</a>的說明註解之後</p>
+<p>它其實是搭配另外一個builtin function <a href="https://golang.org/src/builtin/builtin.go#L244" target="_blank" rel="noopener">recover</a>一起使用的</p>
+<p>類似C++/Java/Python，try catch block的模式</p>
+<p>具體而言，當panic發生時，go runtime會執行幾件事</p>
+<ul>
+<li>Unwind program stack until the top-level funciton or the panic is recovered</li>
+<li>Execute deferred functions along the stack(LIFO)</li>
+<li>If not recovered, print panic goroutine stacks and exit program with status 2 (syscall)</li>
+</ul>
+<p>白話來說就是</p>
+<ol>
+<li>當panic發生時，發生panic的function會停在呼叫panic的地方</li>
+<li>從panic的function開始依序往caller端(此goroutine)執行每個function中已紀錄的deferred functions, 因為是stack所以會是後進先出的順序，直到呼叫頂端(main或goroutine的起始function)</li>
+<li>如果過程中都沒有遇到recover，則印出error的訊息（傳進panic的參數）及印出發生panic的stack trace</li>
+<li>回傳錯誤碼2</li>
+</ol>
+<p>這整個執行流程就叫做<strong>panicking</strong></p>
+<p>而recover就是用來調控panicking的流程，類似catch，當panic發生後的錯誤處理，讓goroutine能夠繼續執行</p>
+<p>用法如下</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">PanicF</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> r := <span class="built_in">recover</span>(); r != <span class="literal">nil</span> &#123;</span><br><span class="line">           <span class="comment">// Dosomething</span></span><br><span class="line">        &#125;    </span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// panic blocks</span></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>特別留意recover必須放在<strong>defer的function</strong>裡才能夠啟到回復的作用</p>
+<h2><span id="osexit1">os.Exit(1)</span></h2>
+<p>而相對於panic結束前需要的繁複手續</p>
+<p>os.Exit(1)就顯得比較直接乾脆了結</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Exit causes the current program to exit with the given status code.</span></span><br><span class="line"><span class="comment">// Conventionally, code zero indicates success, non-zero an error.</span></span><br><span class="line"><span class="comment">// The program terminates immediately; deferred functions are not run.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Exit</span><span class="params">(code <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> code == <span class="number">0</span> &#123;</span><br><span class="line">        <span class="comment">// Give race detector a chance to fail the program.</span></span><br><span class="line">        <span class="comment">// Racy programs do not have the right to finish successfully.</span></span><br><span class="line">        runtime_beforeExit()</span><br><span class="line">    &#125;</span><br><span class="line">    syscall.Exit(code)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基本上當錯誤發生時，就直接呼叫os level的system call結束process並回傳傳入的錯誤碼1</p>
+<h1><span id="使用時機">使用時機</span></h1>
+<p>以下是個人的觀點及整理收集的資訊</p>
+<p>這個問題可以被想成os.Exit()及panic()的在例外或錯誤處理時的適用時機</p>
+<h2><span id="panic">panic()</span></h2>
+<ul>
+<li>
+<p><strong>An unrecoverable error that the program should stop execution</strong></p>
+<p>今天如果error是程式無法自行復原（e.g., 帳密打錯），程式需要馬上終止執行，這時候就可以用panic()（log.Panic())來報錯，因為它會執行這個發生panic goroutine的deferred functions(clean up)，能做到程序的正常結束(graceful shutdown)</p>
+</li>
+<li>
+<p><strong>A programmer error</strong></p>
+<p>另外一種Use case可以從go的<a href="https://github.com/golang/go/blob/50bd1c4d4eb4fac8ddeb5f063c099daccfb71b26/src/crypto/rand/util.go#L108" target="_blank" rel="noopener">原始碼</a>看到，錯誤地方式呼叫function（e.g., 穿入參數不符合規範），這也同時符合panic結束的error status 是2的<a href="http://www.tldp.org/LDP/abs/html/exitcodes.html" target="_blank" rel="noopener">設計</a></p>
+</li>
+<li>
+<p><strong>Deep nested errors</strong></p>
+<p>還有一種是<a href="https://openhome.cc/Gossip/Go/DeferPanicRecover.html" target="_blank" rel="noopener">良葛格</a>及<a href="https://github.com/golang/go/wiki/PanicAndRecover" target="_blank" rel="noopener">wiki</a>裡有提到，如果錯誤發生在比較深的call stacks裡 (e.g., package internal private function)，這時候就可以考慮用panic(err)直接往最外層（Exposed function)拋，再利用recover來轉譯出error，但注意在go的convention裡，panic state 不應該跨package，package之間還是要盡量要以error來溝通</p>
+</li>
+</ul>
+<h2><span id="osexit">os.Exit()</span></h2>
+<p>查看golang的<a href="https://github.com/golang/go/search?p=1&amp;q=os.Exit&amp;unscoped_q=os.Exit" target="_blank" rel="noopener">原始碼</a></p>
+<p>主要可以歸類成兩種類型</p>
+<ul>
+<li><strong>top level function (e.g., main)</strong></li>
+<li><strong>test function</strong></li>
+</ul>
+<p>直覺上可以理解為不需要做額外的clean up就直接離開，或者測試有錯就馬上停止</p>
+<p>雖然log.Fatal()最後呼叫的是os.Exit(1)，損失了回傳error code的彈性</p>
+<p>但我想在測試的環境中還是蠻適合使用有效率立即停止的error out</p>
+<h1><span id="go的建議做法">Go的建議做法</span></h1>
+<p>其實在網路上並沒有針對log.Panic()及log.Fatal()的比較</p>
+<p>godoc跟wiki也沒有找到特別針對這部份做說明</p>
+<p>但這邊還是記錄一下幾個比較相關的資訊，留著存參</p>
+<ol>
+<li><a href="https://golang.org/doc/faq#exceptions" target="_blank" rel="noopener">Why does Go not have exceptions?</a></li>
+<li><a href="https://golang.org/doc/faq#assertions" target="_blank" rel="noopener">Why does Go not have assertions?</a></li>
+<li><a href="https://stackoverflow.com/a/28473273" target="_blank" rel="noopener">when-to-use-os-exit-and-panic</a></li>
+</ol>
+<p>基本上golang是鼓勵好好思考如何處裡錯誤狀況</p>
+<p>而不是遇到就直接丟例外，讓程式直接crash</p>
+<p>FAQ裡面也有提到golang沒有exceptions或assertions的機制也是為了這個緣故</p>
+<p>不過針對os.Exit跟panic</p>
+<p>stackoverflow的這個回答蠻精闢的</p>
+<blockquote>
+<p>So basically panic is for you, a bad exit code is for your user.</p>
+</blockquote>
+<p>可歸咎開發者的包就用panic</p>
+<p>要給程式使用者的錯誤資訊就用os.Exit</p>
+<h1><span id="總結">總結</span></h1>
+<p>底下是自己的結論</p>
+<ul>
+<li>
+<p>log.Panic適用</p>
+<ul>
+<li>無法處理的錯誤，須立即停止程式</li>
+<li>提醒function使用的方式錯誤（e.g., 不合法的input提醒)</li>
+<li>太過深層的private function錯誤</li>
+</ul>
+</li>
+<li>
+<p>log.Fatal適用</p>
+<ul>
+<li>測試，有問題馬上修</li>
+<li>不需要clean up的main function錯誤</li>
+</ul>
+</li>
+</ul>
+<h1><span id="reference">Reference</span></h1>
+<ol>
+<li><a href="https://blog.golang.org/defer-panic-and-recover" target="_blank" rel="noopener">Defer, Panic, and Recover</a></li>
+<li><a href="https://github.com/golang/go/wiki/PanicAndRecover" target="_blank" rel="noopener">PanicAndRecover</a></li>
+<li><a href="https://stackoverflow.com/questions/28472922/when-to-use-os-exit-and-panic" target="_blank" rel="noopener">when to use os exit and panic</a></li>
+<li><a href="https://golangbot.com/panic-and-recover/" target="_blank" rel="noopener">panic and recover</a></li>
+<li><a href="https://tachingchen.com/tw/blog/go-defer-and-os-exit/" target="_blank" rel="noopener">go defer and os exit</a></li>
+<li><a href="http://www.tldp.org/LDP/abs/html/exitcodes.html" target="_blank" rel="noopener">Exitcodes</a></li>
+<li><a href="https://openhome.cc/Gossip/Go/DeferPanicRecover.html" target="_blank" rel="noopener">DeferPanicRecover</a></li>
+</ol>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2019/05/16/Message-Queue學習筆記/" data-toggle="tooltip" data-placement="top" title="Message Queue學習筆記">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/04/26/Golang-defer筆記/" data-toggle="tooltip" data-placement="top" title="[Golang] defer筆記">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">差異性</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">Panic &amp; Recover</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">os.Exit(1)</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">使用時機</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">panic()</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">os.Exit()</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Go的建議做法</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">總結</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Golang" title="Golang">Golang</a>
+                        
+                          <a class="tag" href="/tags/#學習筆記" title="學習筆記">學習筆記</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "babygoat";
+    var disqus_identifier = "https://babygoat.github.io/2019/05/04/Golang-log-Panic-v-s-log-Fatal/";
+    var disqus_url = "https://babygoat.github.io/2019/05/04/Golang-log-Panic-v-s-log-Fatal/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/babygoat1124">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/chingyang.tseng">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/babygoat">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/ching-yang-tseng-60659b68">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; babygoat 2019 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://babygoat.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://babygoat.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

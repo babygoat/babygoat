@@ -7,6 +7,30 @@
     </url>
 
     <url>
+        <loc>https://babygoat.github.io/2019/06/04/SHELL-Execution-Type/</loc>
+        <lastmod>2019-06-05T05:56:30.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://babygoat.github.io/2019/05/04/Golang-log-Panic-v-s-log-Fatal/</loc>
+        <lastmod>2019-06-05T05:55:27.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://babygoat.github.io/2019/05/16/Message-Queue%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/</loc>
+        <lastmod>2019-05-16T02:40:02.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://babygoat.github.io/2019/04/24/Bash-Quoting/</loc>
         <lastmod>2019-04-30T06:32:19.000Z</lastmod>
         <changefreq>weekly</changefreq>

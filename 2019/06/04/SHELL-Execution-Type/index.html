@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          [Golang] defer筆記 - babygoat&#39;s blog
+          [SHELL] Execution Type - babygoat&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://babygoat.github.io/2019/04/26/Golang-defer筆記/">
+    <link rel="canonical" href="https://babygoat.github.io/2019/06/04/SHELL-Execution-Type/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -86,16 +86,16 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#Golang" title="Golang">Golang</a>
+                              <a class="tag" href="/tags/#Shell" title="Shell">Shell</a>
                             
-                              <a class="tag" href="/tags/#學習筆記" title="學習筆記">學習筆記</a>
+                              <a class="tag" href="/tags/#Source" title="Source">Source</a>
                             
                         </div>
-                        <h1>[Golang] defer筆記</h1>
+                        <h1>[SHELL] Execution Type</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by babygoat on
-                            2019-04-26
+                            2019-06-04
                         </span>
                     </div>
                 
@@ -220,39 +220,91 @@
                 post-container">
 
                 <h1><span id="前言">前言</span></h1>
-<p>本篇想記錄一下，從c轉換過來golang後，接觸到比較不一樣的語法：defer</p>
-<p>剛開始學c的FILE I/O的時候，如果I/O的任務過於複雜的時候</p>
-<p>常常會忘記最後要把FILE pointer 關掉</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="keyword">FILE</span>* fptr;</span><br><span class="line"></span><br><span class="line">fptr = fopen(<span class="string">"a.txt"</span>, <span class="string">"w+"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// perform writing</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// memory leak!!</span></span><br></pre></td></tr></table></figure>
-<p>所以後來就養成習慣，寫完fopen馬上接著寫fclose，確保file pointer的memory有被回收</p>
-<p>而defer寫起來的感覺也蠻符合之前的習慣</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Copy</span><span class="params">(dstName, srcName <span class="keyword">string</span>)</span> <span class="params">(written <span class="keyword">int64</span>, error)</span></span> &#123;</span><br><span class="line">    src, err := os.Open(srcName)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">defer</span> src.Close()</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1><span id="rules">Rules</span></h1>
-<p>Defer主要的功能是讓defer後面的function statement，在function結束return後執行，故常用來做一些Clean up或Wrapper的工作，底下是<a href="https://blog.golang.org/defer-panic-and-recover" target="_blank" rel="noopener">Go Blog</a>裡所提出要注意的rules</p>
-<h2><span id="rule-1defer-function-執行時參數即賦值">Rule 1：Defer function 執行時參數即賦值</span></h2>
+<p>最近開發常需要測試環境變數去overwrite default的設定檔</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~&gt; var1=env1 go run server.go</span><br></pre></td></tr></table></figure>
+<p>但如果要覆寫的環境變數一多，直接打在command line上就顯得過於冗長</p>
+<p>這時就想到可以用env檔的方式(e.g., dev.env)創造出需要的環境</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">~&gt; cat dev.env</span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">var1=env1</span><br><span class="line">var2=env2</span><br><span class="line">var3=env3</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">~&gt;<span class="built_in">source</span> dev.env </span><br><span class="line">~&gt;go run server.go</span><br></pre></td></tr></table></figure>
+<p>但觀念不清楚的狀況下常會，source | bash(sh) | . | ./[script]混用</p>
+<p>可能造成環境變數設定不當</p>
+<p>本篇為整理結果筆記</p>
+<h1><span id="execution-type">Execution Type</span></h1>
+<p>在LINUX/UNIX執行環境下，可分為三種exectuion type</p>
+<ul>
+<li>Fork (default)</li>
+<li>Source</li>
+<li>Exec</li>
+</ul>
+<p>最主要的差異性在於執行後的結果，<strong>是否影響當前shell的環境</strong></p>
+<p>底下一一來探討</p>
+<h2><span id="fork">Fork</span></h2>
+<p>預設的執行模式，顧名思義就是在執行script時會<strong>fork</strong>出一個child process來運行</p>
+<p>故當script執行完畢時，即回到parent process(原本的shell)，而不改變環境</p>
+<p>底下為常見的fork模式</p>
+<ul>
+<li>使用shell interpreter</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">~&gt; sh ./script</span><br><span class="line"></span><br><span class="line">or</span><br><span class="line"></span><br><span class="line">~&gt; bash ./script</span><br></pre></td></tr></table></figure>
+<ul>
+<li>直接使用script filename</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">~&gt;./script</span><br></pre></td></tr></table></figure>
+<p>若以script filename執行時，需有&quot;+x&quot; (execution的權限）</p>
+<h2><span id="source">Source</span></h2>
+<p>Source執行模式則是直接在目前的Shell下運行，如執行中有改變環境時，</p>
+<p>則會<strong>保留更動</strong></p>
+<p>底下為常見的Source模式使用</p>
+<ul>
+<li>使用source builtin</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">~&gt; <span class="built_in">source</span> ./script</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用 .(period) builtin</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">~&gt; . ./script</span><br></pre></td></tr></table></figure>
+<h2><span id="exec">Exec</span></h2>
+<p>Exec的執行模式跟Source一樣，都是在當前的Shell運行，故也會<strong>保留過程中的環境更動</strong></p>
+<p>但不同的是，執行後會結束當前的Shell</p>
+<p>且script需有可執行(+x)的權限</p>
+<p>底下為常見的Exec模式使用</p>
+<ul>
+<li>使用exec builtin</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~&gt; <span class="built_in">exec</span> ./script</span><br></pre></td></tr></table></figure>
+<h1><span id="驗證">驗證</span></h1>
+<p>為了驗證剛剛的理論，可以使用<a href="http://man7.org/linux/man-pages/man1/pstree.1.html" target="_blank" rel="noopener">pstree</a>來觀察三種不同模式的樹狀圖</p>
+<p>透過tmux或開啟兩個terminal，一個執行script，另外一個透過process樹狀圖觀察</p>
+<p>底下是準備的script.sh的snippet</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">"Please input a number:"</span> number</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Your number is:<span class="variable">$&#123;number&#125;</span>"</span></span><br></pre></td></tr></table></figure>
+<p>為了方便觀測，用read builtin command，等待輸入，可以比較明顯的看出執行時process的變化</p>
+<h2><span id="fork">Fork</span></h2>
+<p>首先是fork</p>
+<p>window 1</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~&gt; bash script.sh</span><br><span class="line">Please input a number:2</span><br><span class="line">Your number is: 2</span><br><span class="line">~&gt; <span class="built_in">echo</span> <span class="string">"After script:<span class="variable">$&#123;number&#125;</span>"</span></span><br><span class="line">After script:</span><br></pre></td></tr></table></figure>
+<p>window 2</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~&gt; pstree -s bash</span><br><span class="line">...</span><br><span class="line">   \-+= 13902 babygoat bash</span><br><span class="line">     \--= 14357 babygoat bash script.sh</span><br></pre></td></tr></table></figure>
+<p>明顯可以看出在fork下，bash script.sh的執行是由shell fork出的child process所執行，故回到原本shell執行echo指令時，$number的值仍為空</p>
+<h2><span id="source">Source</span></h2>
+<p>window 1</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~&gt; <span class="built_in">source</span> script.sh</span><br><span class="line">Please input a number: 2</span><br><span class="line">Your number is: 2</span><br><span class="line">~&gt; <span class="built_in">echo</span> <span class="string">"After script:<span class="variable">$&#123;number&#125;</span>"</span></span><br><span class="line">After script: 2</span><br></pre></td></tr></table></figure>
+<p>window 2</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~&gt; pstree -s bash</span><br><span class="line">...</span><br><span class="line">    \--= 13902 babygoat bash</span><br></pre></td></tr></table></figure>
+<p>可以看出在source模式下，並沒有fork出child process來運行script，故只能看到bash shell的process，且變數$number被保留在執行script的環境</p>
+<h2><span id="exec">Exec</span></h2>
+<p>window 1</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 要先將script.sh的權限增加可執行</span></span><br><span class="line">~&gt; chmod +x script.sh</span><br><span class="line">~&gt; <span class="built_in">exec</span> script.sh</span><br><span class="line">Please input number:2</span><br><span class="line">Your number is: 2</span><br><span class="line"><span class="comment"># Shell關閉</span></span><br></pre></td></tr></table></figure>
+<p>window 2</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~&gt; pstree -s bash</span><br><span class="line">...</span><br><span class="line">    \--= 13902 babygoat /bin/bash /Users/babygoat/script.sh</span><br></pre></td></tr></table></figure>
+<p>發現執行shell的process context被替換成執行script.sh了，也沒有生出額外的process，執行完畢後process即結束</p>
+<p>也驗證了bash manual裡有關exec 的說明</p>
 <blockquote>
-<p>A deferred function’s arguments are evaluated when the defer statement is evaluated.</p>
+<p>If command is supplied, it replaces the shell without creating a new process.</p>
 </blockquote>
-<p>如果被延遲執行的function帶有參數，參數的值就已被決定</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">example1</span><span class="params">()</span></span> &#123;</span><br><span class="line">    i := <span class="number">0</span></span><br><span class="line">    <span class="keyword">defer</span> fmt.Print(i) <span class="comment">// will print 0</span></span><br><span class="line">    i = <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2><span id="rule-2-lifo-defer-function-lists">Rule 2: LIFO defer function lists</span></h2>
-<blockquote>
-<p>Deferred function calls are executed in Last In First Out order after the surrounding function returns.</p>
-</blockquote>
-<p>若function中有多個defer statements時，延遲執行順序會是後進先出（LIFO)</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">example2</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">4</span>; i++ &#123;</span><br><span class="line">        <span class="keyword">defer</span> fmt.Print(i) <span class="comment">// wil print 3210</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2><span id="rule-3-defer-function-可以操作原function的回傳值">Rule 3: Defer function 可以操作原function的回傳值</span></h2>
-<blockquote>
-<p>Deferred functions may read and assign to the returning function’s named return values.</p>
-</blockquote>
-<p>因為在golang裡面，可以賦予回傳值名稱，故可以用來在defer function裡面操作，如常見的clean up或return wrapper等</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">a</span><span class="params">()</span> <span class="params">(i <span class="keyword">int</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;i++&#125; ()</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">example3</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="built_in">print</span> a() <span class="comment">// 2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1><span id="小結">小結</span></h1>
-<p>本篇算是golang 學習的開端，接下來幾篇想記錄一下，golang 中的panic v.s. fatal<br>
-以及defer常搭配的anonymous function所形成的closures</p>
 <h1><span id="reference">Reference</span></h1>
 <ol>
-<li><a href="https://blog.golang.org/defer-panic-and-recover" target="_blank" rel="noopener">Defer, Panic, and Recover</a></li>
+<li><a href="https://www.gnu.org/software/bash/manual/bash.html#Bourne-Shell-Builtins" target="_blank" rel="noopener">Bourne Shell Builtins</a></li>
+<li><a href="https://www.cnblogs.com/pcat/p/5467188.html" target="_blank" rel="noopener">linux里source、sh、bash、./有什么区别</a></li>
+<li><a href="http://benjr.tw/97083" target="_blank" rel="noopener">Bash Shell – source script, sh script, ./script (2)</a></li>
 </ol>
 
                 
@@ -261,13 +313,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2019/05/04/Golang-log-Panic-v-s-log-Fatal/" data-toggle="tooltip" data-placement="top" title="[Golang] log.Panic v.s. log.Fatal">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2019/04/25/journalctl使用筆記/" data-toggle="tooltip" data-placement="top" title="journalctl使用筆記">Next Post &rarr;</a>
+                            <a href="/2019/05/16/Message-Queue學習筆記/" data-toggle="tooltip" data-placement="top" title="Message Queue學習筆記">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -297,7 +345,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Rules</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">Rule 1：Defer function 執行時參數即賦值</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">Rule 2: LIFO defer function lists</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">Rule 3: Defer function 可以操作原function的回傳值</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">小結</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Execution Type</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">Fork</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">Source</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">Exec</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">驗證</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">Fork</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">Source</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">Exec</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Reference</span></a></li></ol>
         
         </div>
       </aside>
@@ -317,9 +365,9 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Golang" title="Golang">Golang</a>
+                          <a class="tag" href="/tags/#Shell" title="Shell">Shell</a>
                         
-                          <a class="tag" href="/tags/#學習筆記" title="學習筆記">學習筆記</a>
+                          <a class="tag" href="/tags/#Source" title="Source">Source</a>
                         
                     </div>
                 </section>
@@ -339,8 +387,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "babygoat";
-    var disqus_identifier = "https://babygoat.github.io/2019/04/26/Golang-defer筆記/";
-    var disqus_url = "https://babygoat.github.io/2019/04/26/Golang-defer筆記/";
+    var disqus_identifier = "https://babygoat.github.io/2019/06/04/SHELL-Execution-Type/";
+    var disqus_url = "https://babygoat.github.io/2019/06/04/SHELL-Execution-Type/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
