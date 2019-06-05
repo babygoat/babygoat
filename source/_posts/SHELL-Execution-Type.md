@@ -32,14 +32,16 @@ var2=env2
 var3=env3
 ...
 
-~>source dev.env && go run server.go
+~>source dev.env 
+~>go run server.go
+
 ```
 
 但觀念不清楚的狀況下常會，source | bash(sh) | . | ./[script]混用
 
-可能造成環境變數設定不檔
+可能造成環境變數設定不當
 
-本篇為整理結果筆記
+本篇為筆記整理
 
 # Execution Type
 
