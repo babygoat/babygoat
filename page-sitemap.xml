@@ -14,14 +14,14 @@
     </url>
     
     <url>
-        <loc>https://babygoat.github.io/about/</loc>
+        <loc>https://babygoat.github.io/archive/</loc>
         <lastmod>2019-04-30T06:32:19.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://babygoat.github.io/archive/</loc>
+        <loc>https://babygoat.github.io/about/</loc>
         <lastmod>2019-04-30T06:32:19.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
