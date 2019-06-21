@@ -12,9 +12,11 @@ categories: Golang
 
 # 前言
 
-隨著go module在1.11的原生支援，就有想嘗試玩看看的念頭，但苦於工作上的開發需求，
+隨著go module在1.11的原生支援，就有想嘗試玩看看的念頭
 
-然而目前開發環境仍暫時停留在1.10版，就有了念頭想找看看有沒有方便的version control tool
+但苦於工作上的開發需求，目前開發環境仍暫時停留在1.10版
+
+就有了念頭想找看看有沒有方便的version control tool
 
 google了之後發現網路上大概有幾種方式
 
@@ -24,7 +26,7 @@ google了之後發現網路上大概有幾種方式
 
 3. 透過brew switch管理，參考Evan大的這篇[文章](https://www.evanlin.com/go-version-control-with-brew/)
 
-仔細研究後決定使用原生的brew來做版本管理，但因為這篇文章時間點有點久遠
+仔細研究後決定使用原生的Homebrew來做版本管理，但因為這篇文章時間點有點久遠
 
 Homebrew的指令支援也有很大幅度的不同，本篇作為研究過程的筆記
 
@@ -46,7 +48,7 @@ GVM是一款在LINUX/UNIX系統上的golang version control tool
 ~> brew install mercurial
 ```
 
-因為這些prerequisite，決定再找找有沒有什麼目前mac有的資源就能方便切換的方式
+因為這些prerequisite，決定還是先以目前mac有的資源就能方便切換的方式
 
 ## 多個GOROOT
 
@@ -70,7 +72,7 @@ golang 作者Rob Pike提供了修改GOROOT的方式
 
 就看到[官方教學](https://golang.org/doc/install#extra_versions)上就有提供方式
 
-以我使用為例
+以自身使用為例
 
 ```bash
 ~> go version
@@ -95,7 +97,7 @@ go version go1.12.6 linux/amd64
 
 ## brew switch
 
-然後看到golang社群的host Evan大的[文章](https://www.evanlin.com/go-version-control-with-brew/)
+然後就看到golang社群的host Evan大的[文章](https://www.evanlin.com/go-version-control-with-brew/)
 
 就發現其實Homebrew除了套件管理外，也能控制套件版本
 
