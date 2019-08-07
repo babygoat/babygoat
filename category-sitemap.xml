@@ -22,7 +22,14 @@
 
     <url>
         <loc>https://babygoat.github.io/categories/Golang/</loc>
-        <lastmod>2019-06-19T06:53:14.000Z</lastmod>
+        <lastmod>2019-07-10T05:08:31.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://babygoat.github.io/categories/Nginx/</loc>
+        <lastmod>2019-08-07T06:22:01.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

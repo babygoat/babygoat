@@ -142,14 +142,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -220,8 +220,9 @@
                 post-container">
 
                 <h1><span id="前言">前言</span></h1>
-<p>隨著go module在1.11的原生支援，就有想嘗試玩看看的念頭，但苦於工作上的開發需求，</p>
-<p>然而目前開發環境仍暫時停留在1.10版，就有了念頭想找看看有沒有方便的version control tool</p>
+<p>隨著go module在1.11的原生支援，就有想嘗試玩看看的念頭</p>
+<p>但苦於工作上的開發需求，目前開發環境仍暫時停留在1.10版</p>
+<p>就有了念頭想找看看有沒有方便的version control tool</p>
 <p>google了之後發現網路上大概有幾種方式</p>
 <ol>
 <li>
@@ -234,7 +235,7 @@
 <p>透過brew switch管理，參考Evan大的這篇<a href="https://www.evanlin.com/go-version-control-with-brew/" target="_blank" rel="noopener">文章</a></p>
 </li>
 </ol>
-<p>仔細研究後決定使用原生的brew來做版本管理，但因為這篇文章時間點有點久遠</p>
+<p>仔細研究後決定使用原生的Homebrew來做版本管理，但因為這篇文章時間點有點久遠</p>
 <p>Homebrew的指令支援也有很大幅度的不同，本篇作為研究過程的筆記</p>
 <h1><span id="研究過程">研究過程</span></h1>
 <h2><span id="gvm">GVM</span></h2>
@@ -242,7 +243,7 @@
 <p>但在OSX上的使用還先需要安裝<a href="https://www.mercurial-scm.org/downloads" target="_blank" rel="noopener">Mercurial</a>及<a href="https://apps.apple.com/tw/app/xcode/id497799835" target="_blank" rel="noopener">Xcode Command Line Tools</a></p>
 <p>參考官方的<a href="https://github.com/moovweb/gvm" target="_blank" rel="noopener">README</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~&gt; xcode-select all</span><br><span class="line">...</span><br><span class="line">~&gt; brew update</span><br><span class="line">...</span><br><span class="line">~&gt; brew install mercurial</span><br></pre></td></tr></table></figure>
-<p>因為這些prerequisite，決定再找找有沒有什麼目前mac有的資源就能方便切換的方式</p>
+<p>因為這些prerequisite，決定還是先以目前mac有的資源就能方便切換的方式</p>
 <h2><span id="多個goroot">多個GOROOT</span></h2>
 <p>接著就看到go-nuts的討論串<a href="https://groups.google.com/d/msg/golang-nuts/uAcPk39Tb0I/yJ2hZfyMAQAJ" target="_blank" rel="noopener">這篇</a></p>
 <p>golang 作者Rob Pike提供了修改GOROOT的方式</p>
@@ -254,7 +255,7 @@
 <p>需要自己手動將舊版的搬移到其他路徑</p>
 <p>正當覺得麻煩，想放棄這個方法時</p>
 <p>就看到<a href="https://golang.org/doc/install#extra_versions" target="_blank" rel="noopener">官方教學</a>上就有提供方式</p>
-<p>以我使用為例</p>
+<p>以自身使用為例</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~&gt; go version</span><br><span class="line">go version go1.10.8 darwin/amd64</span><br><span class="line"></span><br><span class="line">~&gt; go get golang.org/dl/go1.12.6</span><br><span class="line">~&gt; go1.12.6 download</span><br></pre></td></tr></table></figure>
 <p>接著就可以使用go1.12.6來使用1.12.6的環境</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~&gt; go1.12.6 version</span><br><span class="line">go version go1.12.6 linux/amd64</span><br></pre></td></tr></table></figure>
@@ -262,7 +263,7 @@
 <p>不能直接統一用同一個go binary來操作build, test, install</p>
 <p>決定再想想別的方式</p>
 <h2><span id="brew-switch">brew switch</span></h2>
-<p>然後看到golang社群的host Evan大的<a href="https://www.evanlin.com/go-version-control-with-brew/" target="_blank" rel="noopener">文章</a></p>
+<p>然後就看到golang社群的host Evan大的<a href="https://www.evanlin.com/go-version-control-with-brew/" target="_blank" rel="noopener">文章</a></p>
 <p>就發現其實Homebrew除了套件管理外，也能控制套件版本</p>
 <p>如原本不是透過Homebrew管理go的，可參考官方<a href="https://golang.org/doc/install#uninstall" target="_blank" rel="noopener">uninstall教學</a>先移除舊版本</p>
 <p>再透過Homebrew管理</p>
@@ -307,6 +308,10 @@
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2019/07/10/NGINX-Location-Block-Matcher/" data-toggle="tooltip" data-placement="top" title="NGINX Location Block Matcher">&larr; Previous Post</a>
+                        </li>
                     
                     
                         <li class="next">
