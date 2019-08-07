@@ -57,6 +57,17 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145276605-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-145276605-1');
+</script>
+
+
     <!-- ga & ba script hoook -->
     <script></script>
 </head>
@@ -213,15 +224,15 @@
                 
                     <a href="#mac" title="mac" rel="1">mac</a>
                 
+                    <a href="#Hexo" title="Hexo" rel="2">Hexo</a>
+                
+                    <a href="#Blog" title="Blog" rel="2">Blog</a>
+                
                     <a href="#Nginx" title="Nginx" rel="1">Nginx</a>
                 
                     <a href="#Shell" title="Shell" rel="1">Shell</a>
                 
                     <a href="#Source" title="Source" rel="1">Source</a>
-                
-                    <a href="#Hexo" title="Hexo" rel="2">Hexo</a>
-                
-                    <a href="#Blog" title="Blog" rel="2">Blog</a>
                 
                     <a href="#Systemd" title="Systemd" rel="1">Systemd</a>
                 
@@ -299,9 +310,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2019/04/26/Golang-defer筆記/">
+                     <a href="/2019/05/04/Golang-log-Panic-v-s-log-Fatal/">
                         <h2 class="post-title">
-                            [Golang] defer筆記
+                            [Golang] log.Panic v.s. log.Fatal
                         </h2>
                         
                     </a>
@@ -314,9 +325,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2019/05/04/Golang-log-Panic-v-s-log-Fatal/">
+                     <a href="/2019/04/26/Golang-defer筆記/">
                         <h2 class="post-title">
-                            [Golang] log.Panic v.s. log.Fatal
+                            [Golang] defer筆記
                         </h2>
                         
                     </a>
@@ -351,9 +362,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2019/04/26/Golang-defer筆記/">
+                     <a href="/2019/05/04/Golang-log-Panic-v-s-log-Fatal/">
                         <h2 class="post-title">
-                            [Golang] defer筆記
+                            [Golang] log.Panic v.s. log.Fatal
                         </h2>
                         
                     </a>
@@ -366,9 +377,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2019/05/04/Golang-log-Panic-v-s-log-Fatal/">
+                     <a href="/2019/04/26/Golang-defer筆記/">
                         <h2 class="post-title">
-                            [Golang] log.Panic v.s. log.Fatal
+                            [Golang] defer筆記
                         </h2>
                         
                     </a>
@@ -391,72 +402,6 @@
                      <a href="/2019/06/19/Golang-mac上切換多個go版本/">
                         <h2 class="post-title">
                             [Golang] mac上切換多個go版本
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Nginx">
-                    <span class="tag-text">Nginx</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/07/10/NGINX-Location-Block-Matcher/">
-                        <h2 class="post-title">
-                            NGINX Location Block Matcher
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Shell">
-                    <span class="tag-text">Shell</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/06/04/SHELL-Execution-Type/">
-                        <h2 class="post-title">
-                            [SHELL] Execution Type
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Source">
-                    <span class="tag-text">Source</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/06/04/SHELL-Execution-Type/">
-                        <h2 class="post-title">
-                            [SHELL] Execution Type
                         </h2>
                         
                     </a>
@@ -539,6 +484,72 @@
                      <a href="/2017/09/13/Hexo-安裝使用心得/">
                         <h2 class="post-title">
                             Hexo 安裝使用心得
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Nginx">
+                    <span class="tag-text">Nginx</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/07/10/NGINX-Location-Block-Matcher/">
+                        <h2 class="post-title">
+                            NGINX Location Block Matcher
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Shell">
+                    <span class="tag-text">Shell</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/06/04/SHELL-Execution-Type/">
+                        <h2 class="post-title">
+                            [SHELL] Execution Type
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Source">
+                    <span class="tag-text">Source</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/06/04/SHELL-Execution-Type/">
+                        <h2 class="post-title">
+                            [SHELL] Execution Type
                         </h2>
                         
                     </a>
