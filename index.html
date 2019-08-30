@@ -142,7 +142,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -156,14 +156,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -223,6 +223,41 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/2019/08/30/Docker-log-踩雷紀錄/">
+        <h2 class="post-title">
+            Docker log 踩雷紀錄
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            紀錄一下最近建置logging system所踩的坑，以及思路
+因為容器化(Containerized)的關係
+目前大部分application log都是直接輸出至container裡的STDOUT/STDERR
+再由docker engine的logger daemon輸出至console
+底下是這次遇到狀況的簡化版
+12345678910111213141516171819202122......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by babygoat on
+            2019-08-30
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Docker" title="Docker">Docker</a>
+            
+              <a href="/tags/#Golang" title="Golang">Golang</a>
+            
+        </div>
+    
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -577,13 +612,15 @@ I publish the whole project f......
     <div class="tags">
         
             
+        
+            
+            <a href="/tags/#Golang" title="Golang" rel="4">Golang</a>
+            
+        
+            
             <a href="/tags/#Linux" title="Linux" rel="2">Linux</a>
             
         
-            
-        
-            
-            <a href="/tags/#Golang" title="Golang" rel="3">Golang</a>
             
         
             
@@ -687,6 +724,10 @@ I publish the whole project f......
     <ul>
       
         <li>
+          <a href="/2019/08/30/Docker-log-踩雷紀錄/">Docker log 踩雷紀錄</a>
+        </li>
+      
+        <li>
           <a href="/2019/07/10/NGINX-Location-Block-Matcher/">NGINX Location Block Matcher</a>
         </li>
       
@@ -702,10 +743,6 @@ I publish the whole project f......
           <a href="/2019/05/04/Golang-log-Panic-v-s-log-Fatal/">[Golang] log.Panic v.s. log.Fatal</a>
         </li>
       
-        <li>
-          <a href="/2019/04/26/Golang-defer筆記/">[Golang] defer筆記</a>
-        </li>
-      
     </ul>
   </div>
 </h5>
@@ -715,7 +752,7 @@ I publish the whole project f......
 
     <h5>categories
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">1</span></li></ul>
     </div>
 </h5>
         <hr>

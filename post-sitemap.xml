@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://babygoat.github.io/2019/08/30/Docker-log-%E8%B8%A9%E9%9B%B7%E7%B4%80%E9%8C%84/</loc>
+        <lastmod>2019-08-30T07:45:57.760Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://babygoat.github.io/2019/07/10/NGINX-Location-Block-Matcher/</loc>
         <lastmod>2019-08-07T06:22:01.000Z</lastmod>
         <changefreq>weekly</changefreq>
