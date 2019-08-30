@@ -152,6 +152,13 @@
 
                         
                         <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/archive/">Archives</a>
                         </li>
                         
@@ -160,13 +167,6 @@
                         
                         <li>
                             <a href="/categories/">文章分類</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -252,7 +252,7 @@
 <p>且原本在local terminal端測試時，是能夠正常顯示每一條log的</p>
 <p>為了避免混淆</p>
 <p>決定只關注STDOUT所產生的docker log</p>
-<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">~&gt;</span> docker logs -f [CONTAINER<span class="string">\_ID]</span> <span class="number">2</span><span class="string">\&gt;/dev/null</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~&gt; docker logs -f [CONTAINER_ID] <span class="number">2</span>&gt;<span class="regexp">/dev/</span><span class="keyword">null</span></span><br></pre></td></tr></table></figure>
 <p>依然毫無所獲</p>
 <p>與同事討論後，一開始也毫無頭緒，甚至懷疑是否是base image的os所造成的影響</p>
 <p>直到他測試到另一個 /doSomething 的route，裡面帶有其他logger的訊息</p>
@@ -266,7 +266,7 @@
 <p>但無意間踩到還是做個紀錄</p>
 <p>以及反省在Debug時，應多做不同的測試想辦法歸納出具體pattern</p>
 <p>而不該只在錯誤處附近打轉，造成自以為了解問題資訊的幻想</p>
-<p>Ref:</p>
+<p>Reference:</p>
 <ol>
 <li><a href="https://grokbase.com/t/gg/golang-nuts/158cgb3rfd/go-nuts-os-stdout-is-not-buffered" target="_blank" rel="noopener">go-nuts-os-stdout-is-not-buffered</a></li>
 <li><a href="https://github.com/moby/moby/issues/20119" target="_blank" rel="noopener">moby/moby#20119</a></li>
